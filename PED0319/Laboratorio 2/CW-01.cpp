@@ -14,4 +14,5 @@ int main(void)
     {
         cout << "Nota: " << (i + 1) << "\t";
     }
+    return 0;
 }
