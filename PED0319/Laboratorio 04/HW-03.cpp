@@ -4,7 +4,7 @@ using namespace std;
 
 struct Electrodomestics{
     string type;
-    int price, storePrice;
+    float price, storePrice;
 };
 int theSize = 0;
 void fillArray(Electrodomestics *array, int theSize, int aux);
@@ -57,12 +57,15 @@ void printArray(Electrodomestics *array, int theSize, int aux){
     }
 }
 
-int addStorePrices(Electrodomestics *array, int theSize, int aux){
-    int suma = 0;
+float addStorePrices(Electrodomestics *array, int theSize, int aux, bool flag){
+   
     if(aux == theSize){
-        return suma;
+        return 0;
     }
     else{
-        suma =+ array[aux].storePrice;
+        if(flag == true)
+            return array[aux].price + addStorePrices(array, theSize, aux + 1, flag);
+        else
+              return array[aux].storePrice + addStorePrices(array, theSize, aux + 1, flag);
     }
 }
