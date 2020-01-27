@@ -1,7 +1,7 @@
 # Laboratorios PED0319
 
 ## Andrea Maria Rodriguez Amaya
-## Laboratorio 04
+## Laboratorio 05
 
 ### Observaciones al instructor
 * Se toma el tiempo de conocer que se le dificulta al grupo en general y cada uno personalmente
