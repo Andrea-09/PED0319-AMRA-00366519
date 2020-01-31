@@ -21,7 +21,7 @@ pedido *queue(cola *c, pedido elemento);
 
 int main()
 {
-    cola *pInicio = NULL;
+    cola* pInicio = NULL;
     pedido aux;
     int opcion = 0;
 
@@ -55,9 +55,9 @@ int main()
     return 0;
 }
 
-pedido *queue(cola *c, pedido elemento)
+pedido* queue(cola* c, pedido elemento)
 {
-    cola *nuevo = new cola;
+    cola* nuevo = new cola;
     nuevo->elemento = elemento; ///gurada su info
     nuevo->sig = NULL;          //la cola a punta  a NULL
 
@@ -65,7 +65,7 @@ pedido *queue(cola *c, pedido elemento)
         c = nuevo;
     else
     {
-        cola *aux = c;
+        cola* aux = c;
         while (aux->sig)
             aux = aux->sig;
         aux->sig = nuevo;
