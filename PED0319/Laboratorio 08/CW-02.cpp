@@ -7,7 +7,6 @@ struct node
     string word;
     node *left;
     node *right;
-    //aregalarlo para que haga exactamente lo mismo pero con DUI y nombre y apellido
 };
 
 node *createLeaf(string word);
