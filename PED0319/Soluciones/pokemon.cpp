@@ -2,68 +2,143 @@
 #include <string>
 using namespace std;
 
-enum type{fire, water, flying, physic, phantom};
+enum tipo{fuego, agua, veneno, na};
 
-struct node{
-    string name;
-    int KantoPokedex;
-    type Types;
-    node* left;
-    node* right;
+struct pokemon{
+    string nombre;
+    int indice;
+    tipo pTipo1, pTipo2;
 };
 
-int main()
-{
-    node* Tree = NULL;
-    int option = 0;
-    
-    cout << "Bienvenido a su Pokedex, maestro Pokemon!" << endl;
+struct nodo{
+    pokemon info;
+    nodo *left, *right;
+};
+
+void inOrder(nodo* tree);
+string enumToString(tipo aux);
+nodo* createLeaf(pokemon pk);
+void insertTree(nodo** tree, pokemon pk);
+
+int main(void){
+    nodo* pInicio = NULL;
+    pokemon insertar;
+
+    char t1, t2, opcion;
+    int opcion2 = 0;
+
     do{
-        int option = 0;
-        int auxEnum = 0;
-        cout << "1. Agregar\n";
-        cout << "2. Recorrer en In-Order\n";
-        cout << "3. Recorrer en Post-Order\n";
-        cout << "4. Salir\n";
-        cout << "Ingrese su opcion: ";
-        cin >> option;
-        cin.ignore();
-        
-        switch(option){
-            case 1:
-            cout << "Ingrese el nombre de su Pokemon: \n";
-            getline(cin, name);
-            cout << "Ingrese el tipo (1. fuego, 2.agua, 3. volador, 4. psitico, 5. fantasma: .\n";
-            cin >> auxEnum; cin.ignore(); auxEnum--;
-            
-            insertInTree(&Tree, surname, name, DUI);
+    cout << "Nombre: "; cin >>  insertar.nombre;
+    cout << "Indice: "; cin >> insertar.indice;
+
+    cout << "Tipo: "; cin >> t1;
+        switch(t1){
+            case 'f':
+            case 'F':
+                insertar.pTipo1 = fuego;
             break;
-            
-            
-        }while(option != 4)
-    }
-    
+            case 'a':
+            case 'A':
+                insertar.pTipo1 = agua;
+            break;
+            case 'v':
+            case 'V':
+                insertar.pTipo1 = veneno;
+            break;
+
+        }
+
+    cout << "Tiene otro tipo? S/N\t"; cin >> opcion;
+
+        if(opcion == 's' || opcion == 'S'){
+            cout << "Tipo: "; cin >> t2;
+            switch(t2){
+                case 'f':
+                case 'F':
+                    insertar.pTipo2 = fuego;
+                break;
+                case 'a':
+                case 'A':
+                    insertar.pTipo2 = agua;
+                break;
+                case 'v':
+                case 'V':
+                    insertar.pTipo2 = veneno;
+                break;
+            }
+        }
+        else{
+            insertar.pTipo2 = na;
+        }
+        cout << "Desea agregar otro? \n1. Si\n0. No\t"; cin >> opcion2;
+        cin.ignore();
+
+    insertTree(&pInicio, insertar);
+    }while(opcion2 != 0);
+
+    inOrder(pInicio);
 
     return 0;
 }
 
-node* createLeaf (string name, int KantoPokedex, type Types){
-    node* leaf = new node;
-    leaf->name = name;
-    leaf->Types = Types;
-    leaf->KantoPokedex = KantoPokedex;
+nodo* createLeaf(pokemon pk){
+    nodo* leaf = new nodo;
+
+    leaf->info = pk;
     leaf->left = NULL;
     leaf->right = NULL;
 
     return leaf;
-    
 }
 
-void insertInTree(node** Tree, string name int KantoPokedex, type Types){
-    
-    if(!(*Tree))
-        *Tree = createLeaf(name, KantoPokedex, Types);
-    
+void insertTree(nodo** tree, pokemon pk){
+    if(!(*tree))
+        *tree = createLeaf(pk);
     else{
-        
+        if((*(*tree)).info.indice <= pk.indice)
+            insertTree(&(*(*tree)).left, pk);
+        else
+            insertTree(&(*(*tree)).right, pk);
     }
+}
+
+void inOrder(nodo* tree){
+    if(!tree)
+        return;
+    else{
+        inOrder(tree->left);
+        cout << "Nombre: " << tree->info.nombre << "\t";
+        cout << "Indice: " << tree->info.indice << "\t";
+        cout << "Tipo: " << enumToString(tree->info.pTipo1) << "\n";
+        cout << "Tipo: " << enumToString(tree->info.pTipo2) << "\n";
+        inOrder(tree->right);
+    }
+}
+
+string enumToString(tipo aux){
+    switch(aux){
+        case veneno:
+            return "Veneno";
+        case fuego:
+            return "Fuego";
+        case agua:
+            return "Agua";
+        case na:
+            return "Sin tipo";
+    }
+}
+
+void preOrder(nodo* tree){
+    if(!tree)
+        return;
+    else{
+        if(tree->info.pTipo1 == veneno || tree->info.pTipo2 == veneno){
+            cout << "Nombre: " << tree->info.nombre << "\t";
+            cout << "Indice: " << tree->info.indice << "\t";
+            cout << "Tipo: " << enumToString(tree->info.pTipo1) << "\n";
+            cout << "Tipo: " << enumToString(tree->info.pTipo2) << "\n";
+        }
+        preOrder(tree->left);
+        preOrder(tree->right);
+    }
+}
